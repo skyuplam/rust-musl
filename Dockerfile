@@ -31,7 +31,10 @@ RUN make -j"$(nproc)" TARGET=$TARGET && \
 From debian:stretch
 LABEL maintainer="Terrence Lam <skyuplam@gmail.com>"
 
+ARG TARGET=arm-linux-musleabihf
+
 COPY --from=muslmaker /opt/$TARGET /opt/$TARGET
+COPY --from=muslmaker /lib /somelib
 
 # Set default toolchain
 ARG TOOLCHAIN=stable
@@ -39,10 +42,11 @@ ARG RUST_TARGET=arm-unknown-linux-musleabihf
 
 # Rust Env var
 ENV RUSTUP_HOME=/usr/local/rustup \
-    CARGO_HOME=/usr/local/cargo
+    CARGO_HOME=/usr/local/cargo \
+    PREFIX=/opt/$TARGET \
+    LD_LIBRARY_PATH=$PREFIX
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-  build-essential \
   ca-certificates \
   file \
   git \
@@ -61,9 +65,9 @@ ENV PATH=/opt/$TARGET/bin:$PATH
 
 # Install rust and setup default toolchain and target
 RUN curl https://sh.rustup.rs -sSf | \
-    sh -s -- -y --default-toolchain $TOOLCHAIN && \
-    rustup target add $RUST_TARGET && \
-    echo "[build]\ntarget = \""$RUST_TARGET"\"" > $CARGO_HOME/config
+  sh -s -- -y --default-toolchain $TOOLCHAIN && \
+  rustup target add $RUST_TARGET && \
+  echo "[build]\ntarget = \"$RUST_TARGET\"\n\n[target.$RUST_TARGET]\nlinker = \"$TARGET-gcc\"\n" > $CARGO_HOME/config
 
 
 ENV CC=$TARGET-gcc
@@ -74,6 +78,9 @@ RUN groupadd --system cross && \
   useradd --create-home --system --gid cross --uid 1000 cross;
 
 USER cross
-ENV HOME=/home/cross
+ENV HOME=/home/cross \
+  USER=cross
 
-WORKDIR /home/cross
+RUN mkdir /home/cross/project
+
+WORKDIR /home/cross/project
