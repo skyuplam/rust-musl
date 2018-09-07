@@ -1,0 +1,5 @@
+[submodule "musl-cross-make"]
+	path = musl-cross-make
+	url = https://github.com/richfelker/musl-cross-make
+	ignore = all
+	branch = master
