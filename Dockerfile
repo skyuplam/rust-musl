@@ -42,9 +42,7 @@ ARG RUST_TARGET=arm-unknown-linux-musleabihf
 
 # Rust Env var
 ENV RUSTUP_HOME=/usr/local/rustup \
-    CARGO_HOME=/usr/local/cargo \
-    PREFIX=/opt/$TARGET \
-    LD_LIBRARY_PATH=$PREFIX
+    CARGO_HOME=/usr/local/cargo
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
   ca-certificates \
