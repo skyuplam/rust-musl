@@ -11,6 +11,13 @@ rust cross-compilation development environment.
 | stable         | arm-unknown-linux-musleabihf        |
 | stable         | armv7-unknown-linux-musleabihf      |
 
+
+# Prebuilt libraries
+
++ `musl-libc`
++ `zlib`
++ OpenSSL
+
 # Usage
 
 1. Pull the docker image from docker hub with target tag, e.g. `arm-unknown-linux-musleabihf`
@@ -41,3 +48,27 @@ $ make TARGET=arm7-unknown-linux-musleabihf build
 # Supported `TARGET`s
 
 See [`musl-cross-make` repo](https://github.com/richfelker/musl-cross-make#supported-targets)
+
+# Working with OpenSSL
+
+Use [`openssl-probe`](https://crates.io/crates/openssl-probe) to find SSL
+certificate locations on the system for OpenSSL.
+
+1. Add `openssl-probe` to your `Cargo.toml` file.
+
+```toml
+# Cargo.toml
+[dependencies]
+openssl-probe = "0.1.2"
+```
+
+2. Add the following snipet to your main as the following:
+
+```rust
+extern crate openssl_probe;
+
+fn main() {
+    openssl_probe::init_ssl_cert_env_vars();
+    //... your code
+}
+```
