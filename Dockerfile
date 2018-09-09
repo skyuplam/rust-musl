@@ -8,18 +8,16 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
   build-essential \
   ca-certificates \
   file \
-  git \
   curl \
-  wget \
-  pkgconf \
   xutils-dev
 
 COPY musl-cross-make/ /src/
+COPY config.mak /src/
 
 WORKDIR /src
 
 ARG TARGET=arm-linux-musleabihf
-ARG OUTPUT=/opt/$TARGET
+ARG OUTPUT=/usr/local/musl
 
 RUN make -j"$(nproc)" TARGET=$TARGET && \
   make -j"$(nproc)" TARGET=$TARGET OUTPUT=$OUTPUT install
@@ -32,9 +30,9 @@ From debian:stretch
 LABEL maintainer="Terrence Lam <skyuplam@gmail.com>"
 
 ARG TARGET=arm-linux-musleabihf
+ARG OUTPUT=/usr/local/musl
 
-COPY --from=muslmaker /opt/$TARGET /opt/$TARGET
-COPY --from=muslmaker /lib /somelib
+COPY --from=muslmaker $OUTPUT $OUTPUT
 
 # Set default toolchain
 ARG TOOLCHAIN=stable
@@ -59,7 +57,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 
 ENV PATH=/usr/local/bin:/usr/local/cargo/bin:/usr/local/rustup/bin:$PATH
-ENV PATH=/opt/$TARGET/bin:$PATH
+ENV PATH=$OUTPUT/bin:$PATH
 
 # Install rust and setup default toolchain and target
 RUN curl https://sh.rustup.rs -sSf | \
@@ -71,9 +69,13 @@ RUN curl https://sh.rustup.rs -sSf | \
 ENV CC=$TARGET-gcc
 ENV CXX=$TARGET-g++
 ENV LD=$TARGET-ld
+ENV C_INCLUDE_PATH=$OUTPUT/$TARGET/include
 
 RUN groupadd --system cross && \
-  useradd --create-home --system --gid cross --uid 1000 cross;
+  useradd --create-home --system \
+  --gid cross --groups sudo --uid 1000 --shell /bin/bash cross;
+
+RUN echo "%sudo ALL=(ALL:ALL) NOPASSWD:ALL" > /etc/sudoers.d/nopasswd
 
 USER cross
 ENV HOME=/home/cross \
