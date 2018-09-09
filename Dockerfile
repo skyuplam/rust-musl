@@ -16,7 +16,7 @@ COPY config.mak /src/
 
 WORKDIR /src
 
-ARG TARGET=arm-linux-musleabihf
+ARG TARGET=arm-unknown-linux-musleabihf
 ARG OUTPUT=/usr/local/musl
 
 RUN make -j"$(nproc)" TARGET=$TARGET && \
@@ -29,14 +29,13 @@ RUN make -j"$(nproc)" TARGET=$TARGET && \
 From debian:stretch
 LABEL maintainer="Terrence Lam <skyuplam@gmail.com>"
 
-ARG TARGET=arm-linux-musleabihf
+ARG TARGET=arm-unknown-linux-musleabihf
 ARG OUTPUT=/usr/local/musl
 
 COPY --from=muslmaker $OUTPUT $OUTPUT
 
 # Set default toolchain
 ARG TOOLCHAIN=stable
-ARG RUST_TARGET=arm-unknown-linux-musleabihf
 
 # Rust Env var
 ENV RUSTUP_HOME=/usr/local/rustup \
@@ -62,8 +61,8 @@ ENV PATH=$OUTPUT/bin:$PATH
 # Install rust and setup default toolchain and target
 RUN curl https://sh.rustup.rs -sSf | \
   sh -s -- -y --default-toolchain $TOOLCHAIN && \
-  rustup target add $RUST_TARGET && \
-  echo "[build]\ntarget = \"$RUST_TARGET\"\n\n[target.$RUST_TARGET]\nlinker = \"$TARGET-gcc\"\n" > $CARGO_HOME/config
+  rustup target add $TARGET && \
+  echo "[build]\ntarget = \"$TARGET\"\n\n[target.$TARGET]\nlinker = \"$TARGET-gcc\"\n" > $CARGO_HOME/config
 
 
 ENV CC=$TARGET-gcc
