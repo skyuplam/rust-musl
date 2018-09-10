@@ -31,7 +31,7 @@ $ docker pull skyuplam/rust-musl-armha:<target tag>
 ```
 $ docker run --rm \
   --volume <path to your rust project>:/home/cross/project \
-  --volume <path to your local cargo registry, e.g. ~/.cargo/registry>:/usr/local/cargo/registry \ # optional, advoid cargo to update on every build
+  --volume <path to your local cargo registry, e.g. ~/.cargo/registry>:/home/cross/.cargo/registry \ # optional, advoid cargo to update on every build
   skyuplam/rust-musl-armhf:<target tag> \
   <cargo command> # e.g. `cargo build --release`
 ```
