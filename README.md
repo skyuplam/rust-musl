@@ -47,7 +47,16 @@ $ make TARGET=arm7-unknown-linux-musleabihf build
 
 # Supported `TARGET`s
 
-See [`musl-cross-make` repo](https://github.com/richfelker/musl-cross-make#supported-targets)
+Althought the primary purpose of the repo is based on arm[hf] and musl, all
+`musl` target is also possible in theory.
+
+You can get all `musl` target from `rustup` command as the following:
+
+```bash
+rustup target list | grep musl
+```
+
+See also [`musl-cross-make` repo](https://github.com/richfelker/musl-cross-make#supported-targets).
 
 # Working with OpenSSL
 
