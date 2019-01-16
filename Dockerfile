@@ -121,8 +121,8 @@ ARG TOOLCHAIN=stable
 RUN curl https://sh.rustup.rs -sSf | \
   sh -s -- -y --default-toolchain $TOOLCHAIN && \
   rustup target add $TARGET && \
-  echo "[target.$TARGET]\nlinker = \"$TARGET-gcc\"" > $CARGO_HOME/config \
-  echo "ar = \"$TARGET-ar\"\n" >> $CARGO_HOME/config \
+  echo "[target.$TARGET]\nlinker = \"$TARGET-gcc\"" > $CARGO_HOME/config && \
+  echo "ar = \"$TARGET-ar\"\n" >> $CARGO_HOME/config && \
   echo "[build]\ntarget = \"$TARGET\"\n" >> $CARGO_HOME/config
 
 RUN mkdir /home/cross/project
