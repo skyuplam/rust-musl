@@ -17,8 +17,12 @@ SSL_VER=1.1.1a
 SSL_ARCH=linux-armv4
 
 
+.PHONY: update-submodules
+update-submodules:
+		git submodule update --remote --recursive
+
 # Build docker image
-build:
+build: update-submodules
 	docker build \
 			--build-arg TARGET=$(TARGET) \
 			--build-arg OUTPUT=$(OUTPUT) \
@@ -37,15 +41,18 @@ push:
 
 # Build and push docker image arm-unknown-linux-musleabihf
 arm:
-	make TARGET=arm-unknown-linux-musleabihf build && \
-			make TARGET=arm-unknown-linux-musleabihf push
+	TARGET=arm-unknown-linux-musleabihf make build && \
+			TARGET=arm-unknown-linux-musleabihf make push
 .PHONY: arm
 
 # Build and push docker image armv7-unknown-linux-musleabihf
 armv7:
-	make TARGET=armv7-unknown-linux-musleabihf build && \
-			make TARGET=armv7-unknown-linux-musleabihf push
+	TARGET=armv7-unknown-linux-musleabihf make build && \
+			TARGET=armv7-unknown-linux-musleabihf make push
 .PHONY: armv7
+
+all: arm armv7
+.PHONY: all
 
 test:
 	docker run --rm -ti \
