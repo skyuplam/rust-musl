@@ -1,4 +1,4 @@
-# Cross compilation environment for `rust` targeting [musl](https://www.musl-libc.org/) on ARMHF
+# Cross compilation environment for `rust` targeting [musl](https://www.musl-libc.org/) on ARMHF inspired by [rust-embedded/cross](https://github.com/rust-embedded/cross)
 
 Based on the official [Debian stretch](https://github.com/sensorfu/rust-musl-arm.git) image and
 [musl-cross-make](https://github.com/richfelker/musl-cross-make) tool to build a
@@ -6,7 +6,7 @@ rust cross-compilation development environment.
 
 # Prebuilt images
 
-| Rust toolchain | Cross Compiled Target               |
+| Rust toolchain | Cross Compiled Target Tag           |
 |----------------|-------------------------------------|
 | stable         | arm-unknown-linux-musleabihf        |
 | stable         | armv7-unknown-linux-musleabihf      |

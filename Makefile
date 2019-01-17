@@ -14,7 +14,7 @@ ZLIB_VER=1.2.11
 ZLIB_SHA256_CHECKSUM=c3e5e9fdd5004dcb542feda5ee4f0ff0744628baf8ed2dd5d66f8ca1197cb1a1
 # openssl
 SSL_VER=1.1.1a
-SSL_ARCH=linux-generic32
+SSL_ARCH=linux-armv4
 
 
 # Build docker image
@@ -46,3 +46,16 @@ armv7:
 	make TARGET=armv7-unknown-linux-musleabihf build && \
 			make TARGET=armv7-unknown-linux-musleabihf push
 .PHONY: armv7
+
+test:
+	docker run --rm -ti \
+			--volume $(PWD)/tests:/home/cross/project \
+			--volume $(HOME)/.cargo/registry:/home/cross/.cargo/registry \
+			$(REPOSITORY):$(TARGET) \
+			cargo clean
+	docker run --rm -ti \
+			--volume $(PWD)/tests:/home/cross/project \
+			--volume $(HOME)/.cargo/registry:/home/cross/.cargo/registry \
+			$(REPOSITORY):$(TARGET) \
+			cargo build
+.PHONY: test

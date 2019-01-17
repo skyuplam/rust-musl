@@ -1,0 +1,12 @@
+[package]
+name = "tests"
+version = "0.1.0"
+authors = ["Terrence Lam <skyuplam@gmail.com>"]
+edition = "2018"
+
+[dependencies]
+env_logger = "*"
+error-chain = "*"
+openssl-probe = "0.1"
+reqwest = "0.9"
+openssl = "0.10"
