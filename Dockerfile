@@ -15,7 +15,7 @@ ARG TARGET=arm-unknown-linux-musleabihf
 ARG OUTPUT=/usr/local/musl
 
 COPY musl-cross-make/ /src/
-COPY config.mak /src/common-config.mak
+COPY common-config.mak /src/common-config.mak
 COPY $TARGET-config.mak /src/$TARGET-config.mak
 
 # musl-cross-make make config
