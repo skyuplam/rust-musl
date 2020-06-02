@@ -48,7 +48,7 @@ RUN curl -sqO http://zlib.net/zlib-$ZLIB_VER.tar.gz && \
   cd .. && rm -rf zlib-$ZLIB_VER.tar.gz zlib-$ZLIB_VER
 
 # Install OpenSSL
-ARG SSL_VER=1.1.0i
+ARG SSL_VER=1.1.1g
 ARG SSL_ARCH=linux-armv4
 
 RUN curl -sSO https://www.openssl.org/source/openssl-$SSL_VER.tar.gz && \
