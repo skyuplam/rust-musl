@@ -35,7 +35,7 @@ $ docker pull skyuplam/rust-musl-armha:<target tag>
 $ docker run --rm \
   --volume <path to your rust project>:/home/cross/project \
   --volume <path to your local cargo registry, e.g. ~/.cargo/registry>:/home/cross/.cargo/registry \ # optional, advoid cargo to update on every build
-  skyuplam/rust-musl-armhf:<target tag> \
+  skyuplam/rust-musl:<target tag> \
   <cargo command> # e.g. `cargo build --release`
 
 # e.g. to run cargo build --release in the current directory
@@ -43,7 +43,7 @@ $ docker run --rm \
 $ docker run --rm \
   --volume $(pwd):/home/cross/project \
   --volume ~/.cargo/registry:/home/cross/.cargo/registry \
-  skyuplam/rust-musl-armhf:x86_64-unknown-linux-musl \
+  skyuplam/rust-musl:x86_64-unknown-linux-musl \
   cargo build --release
 ```
 
@@ -53,10 +53,10 @@ Clone the project.
 
 ```sh
 # clone the project
-$ git clone --recurse-submodules -j8 git@github.com:skyuplam/rust-musl-armhf.git
+$ git clone --recurse-submodules -j8 git@github.com:skyuplam/rust-musl.git
 
 # change to the directory
-$ cd rust-musl-armhf
+$ cd rust-musl
 
 # update submodules
 $ git submodule update --remote --recursive

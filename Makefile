@@ -1,4 +1,4 @@
-REPOSITORY = skyuplam/rust-musl-armhf
+REPOSITORY = skyuplam/rust-musl
 
 # Target for [`musl-cross-make`](https://github.com/richfelker/musl-cross-make#supported-targets)
 # see also `$ rustup target list` and make sure it's supported by
