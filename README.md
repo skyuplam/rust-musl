@@ -1,6 +1,4 @@
-# Cross compilation environment for `rust` targeting
-[musl](https://www.musl-libc.org/) inspired by
-[rust-embedded/cross](https://github.com/rust-embedded/cross)
+# Cross compilation environment for `rust` targeting [musl](https://www.musl-libc.org/) inspired by [rust-embedded/cross](https://github.com/rust-embedded/cross)
 
 Based on the official [Debian
 stretch](https://github.com/sensorfu/rust-musl-arm.git) image and
@@ -51,6 +49,8 @@ $ docker run --rm \
 
 ## Build your own docker image
 
+Clone the project.
+
 ```sh
 # clone the project
 $ git clone --recurse-submodules -j8 git@github.com:skyuplam/rust-musl-armhf.git
@@ -63,7 +63,7 @@ $ git submodule update --remote --recursive
 ```
 
 Change the variables in the `Makefile` and prepare your own `$TARGET-config.mak`
-file and then run:
+file.
 
 Here is a reference for SSL Arch which you can use to set `SSL_ARCH` to match
 `TARGET`:
@@ -97,7 +97,7 @@ vxworks-mips vxworks-ppc405 vxworks-ppc60x vxworks-ppc750 vxworks-ppc750-debug
 vxworks-ppc860 vxworks-ppcgen vxworks-simlinux
 ```
 
-Example:
+Make build:
 
 ```sh
 # e.g. to build x86_64-unknown-linux-musl # with x86_64-unknown-linux-musl-config.mak
@@ -106,10 +106,7 @@ $ make TARGET=x86_64-unknown-linux-musl SSL_ARCH=SSL_ARCH=linux-x86_64 build
 
 ## Supported `TARGET`s
 
-Althought the primary purpose of the repo is based on arm[hf] and musl, all
-`musl` target is also possible in theory.
-
-You can get all `musl` target from `rustup` command as the following:
+You can get most `musl` target from `rustup` command as the following:
 
 ```sh
 $ rustup target list | grep musl
